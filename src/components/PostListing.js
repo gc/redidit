@@ -6,9 +6,9 @@ class PostListing extends Component {
 	render() {
 		const { posts } = this.props;
 		return (
-			<div>
-				<ul>{posts.map(post => <PostListingItem post={post} key={post.data.name} />)}</ul>
-			</div>
+				<div className="row">
+						{posts.map(post => <PostListingItem post={post} key={post.data.name} />)}
+				</div>
 		);
 	}
 }

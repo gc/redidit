@@ -17,7 +17,7 @@ class App extends Component {
 
 	render() {
 		return (
-			<div className="container">
+			<div>
 				<Nav />
 				{this.state.posts && <PostListing posts={this.state.posts} />}
 			</div>
