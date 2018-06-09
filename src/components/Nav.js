@@ -2,42 +2,61 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class Nav extends Component {
+	state = {
+		subreddit: 'all'
+	}
+
+	handleSubmit = (event) => {
+		console.log('handleSubmit')
+		this.updatePostListing(this.state.subreddit);
+		event.preventDefault();
+	}
+
+	updatePostListing(subreddit, type) {
+		console.log('updatePostListing')
+		this.props.fetchPostsFor(this.state.subreddit, type);
+	}
+
+	handleChange = (event) => {
+		console.log('handleChange')
+		this.setState({subreddit: event.target.value})
+	}
+
+	sortTypes = (arr) => {
+		return arr.map(sort => {
+			return (
+				<li className="nav-item mr-3" key={sort}>
+					<button type="button" className="btn btn-secondary btn-sm" onClick={() => this.updatePostListing(this.state.subreddit, sort)}>
+						{sort}
+					</button>
+				</li>
+			)
+		})
+	}
+
 	render() {
 		return (
 			<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-			  <a className="navbar-brand" href="#">Navbar</a>
-			  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			  <a className="navbar-brand" href="/">Redidit!</a>
+			  <button className="navbar-toggler" type="button">
 			    <span className="navbar-toggler-icon"></span>
 			  </button>
 
 			  <div className="collapse navbar-collapse" id="navbarSupportedContent">
 			    <ul className="navbar-nav mr-auto">
-			      <li className="nav-item active">
-			        <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
-			      </li>
-			      <li className="nav-item">
-			        <a className="nav-link" href="#">Link</a>
-			      </li>
-			      <li className="nav-item dropdown">
-			        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			          Dropdown
-			        </a>
-			        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-			          <a className="dropdown-item" href="#">Action</a>
-			          <a className="dropdown-item" href="#">Another action</a>
-			          <div className="dropdown-divider"></div>
-			          <a className="dropdown-item" href="#">Something else here</a>
-			        </div>
-			      </li>
-			      <li className="nav-item">
-			        <a className="nav-link disabled" href="#">Disabled</a>
-			      </li>
+			      {this.sortTypes(['hot', 'new', 'rising', 'controversial', 'top', 'gilded'])}
 			    </ul>
-			    <form className="form-inline my-2 my-lg-0">
-			      <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-			      <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+					<div className="collapse navbar-collapse" id="navbarSupportedContent">
+						<button type="button" className="btn btn-sm btn-danger">
+							<input type="checkbox" className="p-5" onChange={this.props.nsfwFilter} checked={this.props.hideNSFW} /> NSFW Filter
+							</button>
+					</div>
+			    <form className="form-inline my-2 my-lg-0" onSubmit={this.handleSubmit.bind(this)}>
+			      <input className="form-control mr-sm-2" type="text" onChange={this.handleChange.bind(this)} placeholder="Subreddit"/>
+			      <button className="btn btn-success my-2 my-sm-0" type="submit">Search</button>
 			    </form>
 			  </div>
+
 			</nav>
 		);
 	}

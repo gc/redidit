@@ -1,0 +1,8 @@
+.post-footer {
+	font-size: 10px;
+}
+
+.nsfwImage {
+	transform: scale(2);
+	filter: blur(10px);
+}
