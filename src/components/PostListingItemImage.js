@@ -16,14 +16,13 @@ class PostListingItemImage extends Component {
 			)
 		} else if (url.includes('imgur.com/' && url.includes('gifv')) ) {
 			const id = url.split('imgur.com/')[1].split(".")[0]
-			console.log(id)
 			imgTag = (
 				<video className={imageClass}>
 						<source src={`http://i.imgur.com/${id}.webm`} type="video/webm"/>
 				</video>
 			)
 		} else {
-			imgTag = (<img className={imageClass} src={imageURL} alt="Card image cap" />);
+			imgTag = (<img className={imageClass} src={imageURL} alt={post.data.title} />);
 		}
 
 		return (
@@ -37,7 +36,8 @@ class PostListingItemImage extends Component {
 }
 
 PostListingItemImage.propTypes = {
-	post: PropTypes.object.isRequired
+	post: PropTypes.object.isRequired,
+	hideNSFW: PropTypes.bool.isRequired
 };
 
 export default PostListingItemImage;

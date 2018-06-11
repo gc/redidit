@@ -11,7 +11,7 @@ class PostListingItem extends Component {
 		return (
 				<div className="card m-3" style={{width: '18rem', height: 'max-content'}}>
 					<div className="card-body">
-						<a href={postURL}><h5 className="card-title">{post.data.title.slice(0, 150)}</h5></a>
+						<a href={postURL}><h5 className="card-title">{post.data.title}</h5></a>
 						{hasImage && <PostListingItemImage post={post} hideNSFW={this.props.hideNSFW} />}
 						<p className="card-text post-footer mt-3">Posted by /u/{post.data.author} in /r/{post.data.subreddit}</p>
 					</div>

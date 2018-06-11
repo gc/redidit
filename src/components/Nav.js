@@ -7,18 +7,15 @@ class Nav extends Component {
 	}
 
 	handleSubmit = (event) => {
-		console.log('handleSubmit')
 		this.updatePostListing(this.state.subreddit);
 		event.preventDefault();
 	}
 
 	updatePostListing(subreddit, type) {
-		console.log('updatePostListing')
 		this.props.fetchPostsFor(this.state.subreddit, type);
 	}
 
 	handleChange = (event) => {
-		console.log('handleChange')
 		this.setState({subreddit: event.target.value})
 	}
 
@@ -62,9 +59,10 @@ class Nav extends Component {
 	}
 }
 
-/*
 Nav.propTypes = {
-	posts: PropTypes.array.isRequired
+	fetchPostsFor: PropTypes.func.isRequired,
+	nsfwFilter: PropTypes.func.isRequired,
+	hideNSFW: PropTypes.bool.isRequired
 };
-*/
+
 export default Nav;

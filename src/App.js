@@ -5,7 +5,8 @@ import Nav from "./components/Nav";
 class App extends Component {
 	state = {
 		posts: [],
-		hideNSFW: localStorage.getItem('hideNSFW')
+		hideNSFW: !!localStorage.getItem('hideNSFW'),
+		error: false
 	};
 
 	componentDidMount() {
@@ -16,12 +17,13 @@ class App extends Component {
 		fetch(`https://www.reddit.com/r/${subreddit}/${sort}/.json?limit=50`)
 			.then(res => res.json())
 			.then(data => {
+				this.setState({	error: false	})
 				this.setState({ posts: data.data.children });
-			});
+			})
+			.catch(() => this.setState({ error: true, posts: null }));
 	}
 
 	nsfwFilter() {
-		console.log('nsfwFilter: ', !this.state.hideNSFW)
 		localStorage.setItem('hideNSFW', !this.state.hideNSFW);
 		this.setState({ hideNSFW: !this.state.hideNSFW})
 	}
@@ -30,9 +32,10 @@ class App extends Component {
 		return (
 			<div>
 				<Nav fetchPostsFor={this.fetchPostsFor.bind(this)} hideNSFW={this.state.hideNSFW} nsfwFilter={this.nsfwFilter.bind(this)} />
+				{this.state.error && <h2 className="text-center mt-5">No subreddit found.</h2>}
 				{this.state.posts &&
-					<PostListing posts={this.state.posts} updateListing={this.fetchPostsFor} hideNSFW={this.state.hideNSFW} />
-				}
+						<PostListing posts={this.state.posts} updateListing={this.fetchPostsFor} hideNSFW={this.state.hideNSFW} />
+					}
 			</div>
 		);
 	}
